@@ -10,6 +10,7 @@ public class PlayerStateMachine : StateMachine
 
     [field: SerializeField, Header("Movement Settings")] public float NormalSpeed { get; private set; }
     [field: SerializeField] public float SprintSpeed {get; private set; }
+    [field: SerializeField] public float CrouchSpeed {get; private set; }
     [field: SerializeField] public float RotationSpeed { get; private set; }
     
     public Transform MainCameraTransform { get; private set; }

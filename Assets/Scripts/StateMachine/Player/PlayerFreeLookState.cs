@@ -7,7 +7,7 @@ public class PlayerFreeLookState : PlayerBaseState
     readonly private int FreeLookLocomotionHash = Animator.StringToHash("FreeLookLocomotion");
     readonly private int StandingToCrouchHash = Animator.StringToHash("StandingToCrouch");
     readonly private  int FreeLookSpeedHash = Animator.StringToHash("Speed");
-    private const float AnimatorDumpTime = 0.1f;
+    private const float AnimatorDampTime = 0.1f;
 
     private float currentSpeed;
 
@@ -16,15 +16,14 @@ public class PlayerFreeLookState : PlayerBaseState
     public override void Enter()
     {
         stateMachine.Animator.CrossFadeInFixedTime(FreeLookLocomotionHash, 0.5f);
-        Debug.Log("Enter");
     }
 
     public override void Tick(float deltaTime)
     {
         Vector3 movement = CalculateMovement();
         currentSpeed = stateMachine.InputManager.IsSprinting ? stateMachine.SprintSpeed : stateMachine.NormalSpeed;
-
-        stateMachine.Controller.Move(movement * currentSpeed * deltaTime);
+        
+        Move(movement * currentSpeed, deltaTime);
 
         if (stateMachine.InputManager.IsCrounching)
         {
@@ -35,39 +34,13 @@ public class PlayerFreeLookState : PlayerBaseState
 
         if (stateMachine.InputManager.MovementValue == Vector2.zero)
         {
-            stateMachine.Animator.SetFloat(FreeLookSpeedHash, 0, AnimatorDumpTime, deltaTime);
+            stateMachine.Animator.SetFloat(FreeLookSpeedHash, 0, AnimatorDampTime, deltaTime);
             return;
         }
 
-       
-
-        stateMachine.Animator.SetFloat(FreeLookSpeedHash, currentSpeed, AnimatorDumpTime, deltaTime);
+        stateMachine.Animator.SetFloat(FreeLookSpeedHash, currentSpeed, AnimatorDampTime, deltaTime);
         FaceMovementDirection(movement, deltaTime);
     }
 
-    public override void Exit()
-    {
-    }
-    
-    private Vector3 CalculateMovement()
-    {
-           Vector3 forward = stateMachine.MainCameraTransform.forward;
-          Vector3 right = stateMachine.MainCameraTransform.right;
-
-          forward.y = 0f;
-          right.y = 0f;
-
-          forward.Normalize();
-          right.Normalize();
-
-        return forward * stateMachine.InputManager.MovementValue.y + right * stateMachine.InputManager.MovementValue.x;
-    }
-
-    private void FaceMovementDirection(Vector3 movement, float deltaTime)
-    {
-        stateMachine.transform.rotation = Quaternion.Lerp(
-            stateMachine.transform.rotation,
-            Quaternion.LookRotation(movement),
-            deltaTime * stateMachine.RotationSpeed);
-    } 
+    public override void Exit() { }
 }
