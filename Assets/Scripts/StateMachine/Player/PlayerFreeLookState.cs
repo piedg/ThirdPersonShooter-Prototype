@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFreeLookState : PlayerBaseState
-{
-    private readonly int FreeLookSpeedHash = Animator.StringToHash("Speed");
+public class PlayerFreeLookState : PlayerBaseState 
+{ 
+    readonly private int FreeLookLocomotionHash = Animator.StringToHash("FreeLookLocomotion");
+    readonly private int StandingToCrouchHash = Animator.StringToHash("StandingToCrouch");
+    readonly private  int FreeLookSpeedHash = Animator.StringToHash("Speed");
     private const float AnimatorDumpTime = 0.1f;
 
     private float currentSpeed;
@@ -13,6 +15,7 @@ public class PlayerFreeLookState : PlayerBaseState
  
     public override void Enter()
     {
+        stateMachine.Animator.CrossFadeInFixedTime(FreeLookLocomotionHash, 0.5f);
         Debug.Log("Enter");
     }
 
@@ -23,11 +26,20 @@ public class PlayerFreeLookState : PlayerBaseState
 
         stateMachine.Controller.Move(movement * currentSpeed * deltaTime);
 
+        if (stateMachine.InputManager.IsCrounching)
+        {
+            stateMachine.Animator.CrossFadeInFixedTime(StandingToCrouchHash, 0.1f);
+            stateMachine.SwitchState(new PlayerCrounchingState(stateMachine));
+            return;
+        }
+
         if (stateMachine.InputManager.MovementValue == Vector2.zero)
         {
             stateMachine.Animator.SetFloat(FreeLookSpeedHash, 0, AnimatorDumpTime, deltaTime);
             return;
         }
+
+       
 
         stateMachine.Animator.SetFloat(FreeLookSpeedHash, currentSpeed, AnimatorDumpTime, deltaTime);
         FaceMovementDirection(movement, deltaTime);

@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 {
     public Vector2 MovementValue { get; private set; }
     public bool IsSprinting { get; private set; }
+    public bool IsCrounching { get; private set; }
 
     public event Action JumpEvent;
 
@@ -49,6 +50,18 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
         else if (context.canceled)
         {
             IsSprinting = false;
+        }
+    }
+
+    public void OnCrounch(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            IsCrounching = true;
+        }
+        else if (context.canceled)
+        {
+            IsCrounching = false;
         }
     }
 }
