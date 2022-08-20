@@ -13,9 +13,10 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public float CrouchSpeed {get; private set; }
     [field: SerializeField] public float RotationSpeed { get; private set; }
     [field: SerializeField] public float JumpForce { get; private set; }
-    [field: SerializeField] public float ControllerHeight { get; private set; }
-    [field: SerializeField] public Vector3 ControllerCenter { get; private set; }
 
+    // Character Controller Shape
+    public float ControllerHeight { get; private set; }
+    public Vector3 ControllerCenter { get; private set; }
 
 
     public Transform MainCameraTransform { get; private set; }

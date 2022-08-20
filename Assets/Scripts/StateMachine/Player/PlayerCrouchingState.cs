@@ -9,7 +9,8 @@ public class PlayerCrouchingState : PlayerBaseState
     readonly private int CrouchSpeedHash = Animator.StringToHash("CrouchSpeed");
     private float AnimatorDampTime = 0.1f;
 
-    Vector3 ControllerCenterOnCrouch = new Vector3(0f, 0.65f, 0f);
+    Vector3 ControllerCenterOnCrouchWalk = new Vector3(0f, 0.7f, 0f);
+    Vector3 ControllerCenterOnCrouchIdle = new Vector3(0f, 0.65f, 0f);
     float ControllerHeightOnCrouch = 1.5f;
 
     public PlayerCrouchingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
@@ -17,7 +18,6 @@ public class PlayerCrouchingState : PlayerBaseState
     public override void Enter()
     {
         stateMachine.Controller.height = ControllerHeightOnCrouch;
-        stateMachine.Controller.center = ControllerCenterOnCrouch;
 
         stateMachine.Animator.CrossFadeInFixedTime(CrouchingLocomotionHash, 0.3f);
     }
@@ -32,11 +32,13 @@ public class PlayerCrouchingState : PlayerBaseState
         }
 
         Vector3 movement = CalculateMovement();
-
         Move(movement * stateMachine.CrouchSpeed, deltaTime);
+        
+        stateMachine.Controller.center = ControllerCenterOnCrouchWalk;
 
         if (stateMachine.InputManager.MovementValue == Vector2.zero)
         {
+            stateMachine.Controller.center = ControllerCenterOnCrouchIdle;
             stateMachine.Animator.SetFloat(CrouchSpeedHash, 0, AnimatorDampTime, deltaTime);
             return;
         }
