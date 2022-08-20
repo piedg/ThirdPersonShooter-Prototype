@@ -19,8 +19,7 @@ public abstract class PlayerBaseState : State
 
     protected void Move(Vector3 direction, float deltaTime)
     {
-        // Handle player CharacterController Move method
-        stateMachine.Controller.Move(direction * deltaTime);
+        stateMachine.Controller.Move((direction + stateMachine.ForceReceiver.Movement) * deltaTime);
     }
 
     protected Vector3 CalculateMovement()

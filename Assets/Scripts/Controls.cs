@@ -55,9 +55,18 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Crounch"",
+                    ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""b3d8a605-874a-4b4d-827d-2b9ef6ca765e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""0dab1806-62f2-45d5-9ba3-e0eca9b9edb8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -182,7 +191,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Crounch"",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -193,7 +202,29 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Crounch"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3fe679b5-6119-4adc-89e9-046ef3e88123"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc28ee3b-739a-4577-a156-41620af30e61"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -235,7 +266,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-        m_Player_Crounch = m_Player.FindAction("Crounch", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -298,7 +330,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Look;
-    private readonly InputAction m_Player_Crounch;
+    private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_Jump;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -306,7 +339,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Look => m_Wrapper.m_Player_Look;
-        public InputAction @Crounch => m_Wrapper.m_Player_Crounch;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -325,9 +359,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Crounch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrounch;
-                @Crounch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrounch;
-                @Crounch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrounch;
+                @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -341,9 +378,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
-                @Crounch.started += instance.OnCrounch;
-                @Crounch.performed += instance.OnCrounch;
-                @Crounch.canceled += instance.OnCrounch;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -371,6 +411,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
-        void OnCrounch(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

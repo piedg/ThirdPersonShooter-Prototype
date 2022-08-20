@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCrounchingState : PlayerBaseState
+public class PlayerCrouchingState : PlayerBaseState
 {
     readonly private int CrouchingToStandHash = Animator.StringToHash("CrouchingToStand");
     readonly private int CrouchingLocomotionHash = Animator.StringToHash("CrouchingLocomotion");
     readonly private int CrouchSpeedHash = Animator.StringToHash("CrouchSpeed");
     private float AnimatorDampTime = 0.1f;
-    public PlayerCrounchingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+
+    public PlayerCrouchingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {
-        Debug.Log("Enter Crouching");
         stateMachine.Animator.CrossFadeInFixedTime(CrouchingLocomotionHash, 0.5f);
     }
 

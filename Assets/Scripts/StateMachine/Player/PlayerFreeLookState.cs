@@ -16,6 +16,8 @@ public class PlayerFreeLookState : PlayerBaseState
     public override void Enter()
     {
         stateMachine.Animator.CrossFadeInFixedTime(FreeLookLocomotionHash, 0.5f);
+        stateMachine.InputManager.JumpEvent += OnJump;
+
     }
 
     public override void Tick(float deltaTime)
@@ -28,9 +30,10 @@ public class PlayerFreeLookState : PlayerBaseState
         if (stateMachine.InputManager.IsCrounching)
         {
             stateMachine.Animator.CrossFadeInFixedTime(StandingToCrouchHash, 0.1f);
-            stateMachine.SwitchState(new PlayerCrounchingState(stateMachine));
+            stateMachine.SwitchState(new PlayerCrouchingState(stateMachine));
             return;
         }
+
 
         if (stateMachine.InputManager.MovementValue == Vector2.zero)
         {
@@ -42,5 +45,12 @@ public class PlayerFreeLookState : PlayerBaseState
         FaceMovementDirection(movement, deltaTime);
     }
 
-    public override void Exit() { }
+    public override void Exit() {
+    stateMachine.InputManager.JumpEvent -= OnJump;
+            }
+
+    void OnJump()
+    {
+        stateMachine.SwitchState(new PlayerJumpingState(stateMachine));
+    }
 }

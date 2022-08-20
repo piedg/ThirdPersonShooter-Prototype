@@ -53,7 +53,7 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
         }
     }
 
-    public void OnCrounch(InputAction.CallbackContext context)
+    public void OnCrouch(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
