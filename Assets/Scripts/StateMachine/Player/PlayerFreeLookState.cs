@@ -6,7 +6,7 @@ public class PlayerFreeLookState : PlayerBaseState
 { 
     readonly private int FreeLookLocomotionHash = Animator.StringToHash("FreeLookLocomotion");
     readonly private int StandingToCrouchHash = Animator.StringToHash("StandingToCrouch");
-    readonly private  int FreeLookSpeedHash = Animator.StringToHash("Speed");
+    readonly private  int SpeedHash = Animator.StringToHash("Speed");
     private const float AnimatorDampTime = 0.1f;
 
     private float currentSpeed;
@@ -27,6 +27,11 @@ public class PlayerFreeLookState : PlayerBaseState
             stateMachine.SwitchState(new PlayerCrouchingState(stateMachine));
             return;
         }
+        else if(stateMachine.InputManager.IsAiming)
+        {
+            stateMachine.SwitchState(new PlayerAimState(stateMachine));
+            return;
+        }
 
         Vector3 movement = CalculateMovement();
         currentSpeed = stateMachine.InputManager.IsSprinting ? stateMachine.SprintSpeed : stateMachine.NormalSpeed;
@@ -35,11 +40,11 @@ public class PlayerFreeLookState : PlayerBaseState
 
         if (stateMachine.InputManager.MovementValue == Vector2.zero)
         {
-            stateMachine.Animator.SetFloat(FreeLookSpeedHash, 0, AnimatorDampTime, deltaTime);
+            stateMachine.Animator.SetFloat(SpeedHash, 0, AnimatorDampTime, deltaTime);
             return;
         }
 
-        stateMachine.Animator.SetFloat(FreeLookSpeedHash, currentSpeed, AnimatorDampTime, deltaTime);
+        stateMachine.Animator.SetFloat(SpeedHash, currentSpeed, AnimatorDampTime, deltaTime);
         FaceMovementDirection(movement, deltaTime);
     }
 

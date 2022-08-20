@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerStateMachine : StateMachine
 {
@@ -14,10 +15,12 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public float RotationSpeed { get; private set; }
     [field: SerializeField] public float JumpForce { get; private set; }
 
+    [field: SerializeField, Header("Aim Settings")] public CinemachineVirtualCamera AimVirtualCamera { get; private set; }
+
+
     // Character Controller Shape
     public float ControllerHeight { get; private set; }
     public Vector3 ControllerCenter { get; private set; }
-
 
     public Transform MainCameraTransform { get; private set; }
 
