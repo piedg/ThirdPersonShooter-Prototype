@@ -13,12 +13,18 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public float CrouchSpeed {get; private set; }
     [field: SerializeField] public float RotationSpeed { get; private set; }
     [field: SerializeField] public float JumpForce { get; private set; }
+    [field: SerializeField] public float ControllerHeight { get; private set; }
+    [field: SerializeField] public Vector3 ControllerCenter { get; private set; }
+
+
 
     public Transform MainCameraTransform { get; private set; }
 
-
     private void Start()
     {
+        ControllerHeight = Controller.height;
+        ControllerCenter = Controller.center;
+
         MainCameraTransform = Camera.main.transform;
         SwitchState(new PlayerFreeLookState(this));
     }

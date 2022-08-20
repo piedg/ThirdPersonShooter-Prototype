@@ -30,12 +30,9 @@ public class PlayerJumpingState : PlayerBaseState
             stateMachine.SwitchState(new PlayerFallingState(stateMachine));
             return;
         }
-
     }
 
-    public override void Exit()
-    {
-    }
+    public override void Exit() { }
 
    
 }
