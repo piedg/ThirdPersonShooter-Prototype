@@ -16,6 +16,11 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public float JumpForce { get; private set; }
 
     [field: SerializeField, Header("Aim Settings")] public CinemachineVirtualCamera AimVirtualCamera { get; private set; }
+    [field: SerializeField] public GameObject CrossHair;
+    [field: SerializeField] public LayerMask AimColliderLayerMask = new LayerMask();
+    [field: SerializeField] public GameObject CinemachineCameraTarget;
+    [field: SerializeField] public float AimSensitivity = 1f;
+
 
 
     // Character Controller Shape

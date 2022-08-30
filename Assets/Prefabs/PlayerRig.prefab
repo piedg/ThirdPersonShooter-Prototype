@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 463265476}
   - component: {fileID: 463265475}
-  - component: {fileID: 463265477}
+  - component: {fileID: 775160304}
   m_Layer: 0
   m_Name: PlayerAimCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &463265476
 Transform:
   m_ObjectHideFlags: 0
@@ -25,8 +25,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463265474}
-  m_LocalRotation: {x: 0.047535434, y: -0.13592407, z: 0.0065293987, w: 0.98955667}
-  m_LocalPosition: {x: 0.7, y: 1.75, z: -2.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 20
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
+  m_LookAt: {fileID: 2802972968199515304}
   m_Follow: {fileID: 2802972968199515304}
   m_Lens:
     FieldOfView: 40
@@ -72,7 +72,7 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 2009524506}
---- !u!114 &463265477
+--- !u!114 &775160304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,7 +327,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318566371840242600}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.0743122, y: 0.000000017158825, z: -0.0000000012786442, w: 0.99723506}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6344262, y: 1}
+    m_SensorSize: {x: 1.447541, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 1
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 250
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -857,7 +857,6 @@ MonoBehaviour:
   <RotationSpeed>k__BackingField: 5
   <JumpForce>k__BackingField: 5
   <AimVirtualCamera>k__BackingField: {fileID: 463265475}
-  <AimCameraSensitivity>k__BackingField: 5
 --- !u!114 &803746362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,7 +895,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318566373136000573}
-  m_LocalRotation: {x: 0.074312195, y: -0.000000017158808, z: 0.000000001278644, w: 0.99723506}
+  m_LocalRotation: {x: -0.000000007450581, y: -0.00000003403271, z: 0.0000000051004365, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -941,7 +940,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6344262, y: 1}
+    m_SensorSize: {x: 1.447541, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -974,7 +973,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318566373342797604}
-  m_LocalRotation: {x: 0.09243908, y: 0.000000016613768, z: -0.0000000015423652, w: 0.99571836}
+  m_LocalRotation: {x: 0.01818946, y: -0.0000000339343, z: 0.0000000057186282, w: 0.99983466}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1019,7 +1018,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6344262, y: 1}
+    m_SensorSize: {x: 1.447541, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1052,7 +1051,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318566373381172984}
-  m_LocalRotation: {x: 0.056208663, y: 0.0000000021473974, z: -1.2089346e-10, w: 0.99841905}
+  m_LocalRotation: {x: -0.01814147, y: -0.000000019192305, z: 0.0000000025212346, w: 0.99983543}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1097,7 +1096,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6344262, y: 1}
+    m_SensorSize: {x: 1.447541, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
