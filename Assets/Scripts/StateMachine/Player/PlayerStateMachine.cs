@@ -21,8 +21,6 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public GameObject CinemachineCameraTarget;
     [field: SerializeField] public float AimSensitivity = 1f;
 
-
-
     // Character Controller Shape
     public float ControllerHeight { get; private set; }
     public Vector3 ControllerCenter { get; private set; }

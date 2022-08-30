@@ -32,11 +32,14 @@ public class PlayerAimState : PlayerBaseState
             return;
         }
 
-        stateMachine.MainCameraTransform.eulerAngles += 5 * new Vector3(stateMachine.InputManager.LookValue.y, stateMachine.InputManager.LookValue.x, 0f);
+        CameraRotation();
 
         Vector3 movement = CalculateMovement();
         currentSpeed = stateMachine.InputManager.IsSprinting ? stateMachine.SprintSpeed : stateMachine.NormalSpeed;
 
+
+        Aim(deltaTime);
+        //FaceMovementDirection(movement, deltaTime);
         Move(movement * currentSpeed, deltaTime);
 
 
@@ -53,14 +56,6 @@ public class PlayerAimState : PlayerBaseState
 
             return;
         }
-
-        Vector3 worldAimTarget = mouseWorldPosition;
-        worldAimTarget.y = stateMachine.transform.position.y;
-        Vector3 aimDirection = (worldAimTarget - stateMachine.transform.position).normalized;
-
-        stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDirection, Time.deltaTime * 20f);
-
-        CameraRotation();
 
     }
 
@@ -105,14 +100,28 @@ public class PlayerAimState : PlayerBaseState
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
-    private void Aim()
+    private void Aim(float deltaTime)
     {
+        Vector3 mouseWorldPosition = Vector3.zero;
+
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
         if(Physics.Raycast(ray, out RaycastHit raycastHit, 999f, stateMachine.AimColliderLayerMask))
         {
             stateMachine.transform.position = raycastHit.point;
+            mouseWorldPosition = raycastHit.point;
         }
+
+        Vector3 worldAimTarget = mouseWorldPosition;
+        worldAimTarget.y = stateMachine.transform.position.y;
+        Vector3 aimDiretcion = (worldAimTarget - stateMachine.transform.position).normalized;
+     
+            stateMachine.transform.rotation = Quaternion.Lerp(
+                stateMachine.transform.rotation,
+                Quaternion.LookRotation(mouseWorldPosition),
+                deltaTime * stateMachine.RotationSpeed);
+        // stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDiretcion, deltaTime * 20f);
+
     }
 }

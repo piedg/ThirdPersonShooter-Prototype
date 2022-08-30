@@ -36,11 +36,6 @@ public abstract class PlayerBaseState : State
         return forward * stateMachine.InputManager.MovementValue.y + right * stateMachine.InputManager.MovementValue.x;
     }
 
-    protected Vector3 CalculateAimMovement()
-    {
-        return stateMachine.MainCameraTransform.transform.eulerAngles += 5 * new Vector3(stateMachine.InputManager.LookValue.y, stateMachine.InputManager.LookValue.x, 0f);
-    }
-
     protected void FaceMovementDirection(Vector3 movement, float deltaTime)
     {
         stateMachine.transform.rotation = Quaternion.Lerp(
