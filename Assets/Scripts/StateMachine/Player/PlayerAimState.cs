@@ -63,16 +63,16 @@ public class PlayerAimState : PlayerBaseState
 
         if (stateMachine.InputManager.LookValue.sqrMagnitude >= 0.01f )
         {
-           stateMachine._cinemachineTargetYaw += stateMachine.InputManager.LookValue.x * deltaTime * stateMachine.AimSensitivity;
-            stateMachine._cinemachineTargetPitch += stateMachine.InputManager.LookValue.y * deltaTime * stateMachine.AimSensitivity; 
+           stateMachine.CinemachineTargetYaw += stateMachine.InputManager.LookValue.x * deltaTime * stateMachine.AimSensitivity;
+            stateMachine.CinemachineTargetPitch += stateMachine.InputManager.LookValue.y * deltaTime * stateMachine.AimSensitivity; 
         }
 
         // Limita rotazione della camera
-        stateMachine._cinemachineTargetYaw = ClampAngle(stateMachine._cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        stateMachine._cinemachineTargetPitch = ClampAngle(stateMachine._cinemachineTargetPitch, stateMachine.BottomClamp, stateMachine.TopClamp);
+        stateMachine.CinemachineTargetYaw = ClampAngle(stateMachine.CinemachineTargetYaw, float.MinValue, float.MaxValue);
+        stateMachine.CinemachineTargetPitch = ClampAngle(stateMachine.CinemachineTargetPitch, stateMachine.BottomClamp, stateMachine.TopClamp);
 
         // Cinemachine will follow this target
-        stateMachine.CinemachineCameraTarget.transform.rotation = Quaternion.Euler(stateMachine._cinemachineTargetPitch + stateMachine.CameraAngleOverride,
-            stateMachine._cinemachineTargetYaw, 0.0f);
+        stateMachine.CinemachineCameraTarget.transform.rotation = Quaternion.Euler(stateMachine.CinemachineTargetPitch,
+            stateMachine.CinemachineTargetYaw, 0.0f);
     }
 }

@@ -22,9 +22,8 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public float AimSensitivity = 1f;
     [field: SerializeField] public float BottomClamp = -30.0f;
     [field: SerializeField] public float TopClamp = 70.0f;
-    [field: SerializeField] public float CameraAngleOverride = 0.0f;
-    [field: SerializeField] public float _cinemachineTargetYaw;
-    [field: SerializeField] public float _cinemachineTargetPitch;
+    [field: SerializeField] public float CinemachineTargetYaw;
+    [field: SerializeField] public float CinemachineTargetPitch;
 
     #region Character Controller Shape
     public float ControllerHeight { get; private set; }
