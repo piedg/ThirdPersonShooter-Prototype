@@ -17,13 +17,19 @@ public class PlayerStateMachine : StateMachine
 
     [field: SerializeField, Header("Aim Settings")] public CinemachineVirtualCamera AimVirtualCamera { get; private set; }
     [field: SerializeField] public GameObject CrossHair;
-    [field: SerializeField] public LayerMask AimColliderLayerMask = new LayerMask();
     [field: SerializeField] public GameObject CinemachineCameraTarget;
+    [field: SerializeField] public GameObject FreeLookCameraTarget;
     [field: SerializeField] public float AimSensitivity = 1f;
+    [field: SerializeField] public float BottomClamp = -30.0f;
+    [field: SerializeField] public float TopClamp = 70.0f;
+    [field: SerializeField] public float CameraAngleOverride = 0.0f;
+    [field: SerializeField] public float _cinemachineTargetYaw;
+    [field: SerializeField] public float _cinemachineTargetPitch;
 
-    // Character Controller Shape
+    #region Character Controller Shape
     public float ControllerHeight { get; private set; }
     public Vector3 ControllerCenter { get; private set; }
+    #endregion
 
     public Transform MainCameraTransform { get; private set; }
 
