@@ -12,8 +12,6 @@ public class PlayerAimState : PlayerBaseState
 
     private float currentSpeed;
 
-    public Vector3 MouseWorldPosition;
-
     public PlayerAimState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
@@ -33,11 +31,11 @@ public class PlayerAimState : PlayerBaseState
             return;
         }
         AimCameraRotation(deltaTime);
+        PlayerAimRotation(deltaTime);
 
         Vector3 movement = CalculateMovement();
+        
         currentSpeed = stateMachine.InputManager.IsSprinting ? stateMachine.SprintSpeed : stateMachine.NormalSpeed;
-
-        PlayerAimRotation();
 
         Move(movement * currentSpeed, deltaTime);
 
@@ -52,7 +50,6 @@ public class PlayerAimState : PlayerBaseState
         {
             stateMachine.Animator.SetFloat(MoveYHash, 0, AnimatorDampTime, deltaTime);
             stateMachine.Animator.SetFloat(MoveXHash, 0, AnimatorDampTime, deltaTime);
-            PlayerAimRotation();
             AimCameraRotation(deltaTime);
             return;
         }
@@ -66,9 +63,9 @@ public class PlayerAimState : PlayerBaseState
         stateMachine.CrossHair.gameObject.SetActive(false);
     }
 
-    void PlayerAimRotation()
+    void PlayerAimRotation(float deltaTime)
     {
-        MouseWorldPosition = Vector3.zero;
+        Vector3 MouseWorldPosition = Vector3.zero;
 
         Ray ray = Camera.main.ScreenPointToRay(stateMachine.CrossHair.transform.position);
         if (Physics.Raycast(ray, out RaycastHit hit, 999f, stateMachine.AimColliderLayerMask))
@@ -81,6 +78,6 @@ public class PlayerAimState : PlayerBaseState
 
         Vector3 aimDirection = (worldAimTarget - stateMachine.transform.position).normalized;
 
-        stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDirection, Time.deltaTime * 20f);
+        stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDirection, deltaTime * 20f);
     }
 }
