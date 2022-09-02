@@ -12,10 +12,14 @@ public class PlayerAimState : PlayerBaseState
 
     private float currentSpeed;
 
+    public Vector3 MouseWorldPosition;
+
     public PlayerAimState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {
+        stateMachine.CinemachineTargetYaw = stateMachine.CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+
         stateMachine.Animator.CrossFadeInFixedTime(PistolAimLocomotionHash, 0.1f);
         stateMachine.AimVirtualCamera.gameObject.SetActive(true);
         stateMachine.CrossHair.gameObject.SetActive(true);
@@ -28,11 +32,12 @@ public class PlayerAimState : PlayerBaseState
             stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
             return;
         }
-
-        CameraRotation(deltaTime);
+        AimCameraRotation(deltaTime);
 
         Vector3 movement = CalculateMovement();
         currentSpeed = stateMachine.InputManager.IsSprinting ? stateMachine.SprintSpeed : stateMachine.NormalSpeed;
+
+        PlayerAimRotation();
 
         Move(movement * currentSpeed, deltaTime);
 
@@ -47,9 +52,12 @@ public class PlayerAimState : PlayerBaseState
         {
             stateMachine.Animator.SetFloat(MoveYHash, 0, AnimatorDampTime, deltaTime);
             stateMachine.Animator.SetFloat(MoveXHash, 0, AnimatorDampTime, deltaTime);
-            CameraRotation(deltaTime);
+            PlayerAimRotation();
+            AimCameraRotation(deltaTime);
             return;
         }
+
+
     }
 
     public override void Exit()
@@ -57,22 +65,22 @@ public class PlayerAimState : PlayerBaseState
         stateMachine.AimVirtualCamera.gameObject.SetActive(false);
         stateMachine.CrossHair.gameObject.SetActive(false);
     }
-    
-    private void CameraRotation(float deltaTime)
-    {
 
-        if (stateMachine.InputManager.LookValue.sqrMagnitude >= 0.01f )
+    void PlayerAimRotation()
+    {
+        MouseWorldPosition = Vector3.zero;
+
+        Ray ray = Camera.main.ScreenPointToRay(stateMachine.CrossHair.transform.position);
+        if (Physics.Raycast(ray, out RaycastHit hit, 999f, stateMachine.AimColliderLayerMask))
         {
-           stateMachine.CinemachineTargetYaw += stateMachine.InputManager.LookValue.x * deltaTime * stateMachine.AimSensitivity;
-            stateMachine.CinemachineTargetPitch += stateMachine.InputManager.LookValue.y * deltaTime * stateMachine.AimSensitivity; 
+            MouseWorldPosition = hit.point;
         }
 
-        // Limita rotazione della camera
-        stateMachine.CinemachineTargetYaw = ClampAngle(stateMachine.CinemachineTargetYaw, float.MinValue, float.MaxValue);
-        stateMachine.CinemachineTargetPitch = ClampAngle(stateMachine.CinemachineTargetPitch, stateMachine.BottomClamp, stateMachine.TopClamp);
+        Vector3 worldAimTarget = MouseWorldPosition;
+        worldAimTarget.y = stateMachine.transform.position.y;
 
-        // Cinemachine will follow this target
-        stateMachine.CinemachineCameraTarget.transform.rotation = Quaternion.Euler(stateMachine.CinemachineTargetPitch,
-            stateMachine.CinemachineTargetYaw, 0.0f);
+        Vector3 aimDirection = (worldAimTarget - stateMachine.transform.position).normalized;
+
+        stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDirection, Time.deltaTime * 20f);
     }
 }
