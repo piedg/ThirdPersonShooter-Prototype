@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerFreeLookState : PlayerBaseState 
 { 
     readonly private int FreeLookLocomotionHash = Animator.StringToHash("FreeLookLocomotion");
-    readonly private int StandingToCrouchHash = Animator.StringToHash("StandingToCrouch");
     readonly private  int SpeedHash = Animator.StringToHash("Speed");
     private const float AnimatorDampTime = 0.1f;
 

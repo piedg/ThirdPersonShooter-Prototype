@@ -26,7 +26,6 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public float CinemachineTargetPitch;
     [field: SerializeField] public LayerMask AimColliderLayerMask = new LayerMask();
 
-
     #region Character Controller Shape
     public float ControllerHeight { get; private set; }
     public Vector3 ControllerCenter { get; private set; }

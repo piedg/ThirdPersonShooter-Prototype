@@ -11,6 +11,7 @@ public class PlayerAimState : PlayerBaseState
     private const float AnimatorDampTime = 0.1f;
 
     private float currentSpeed;
+    private float timeLeft = 0.25f;
 
     public PlayerAimState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -30,7 +31,6 @@ public class PlayerAimState : PlayerBaseState
             return;
         }
         AimCameraRotation(deltaTime);
-        PlayerAimRotation(deltaTime);
 
         Vector3 movement = CalculateMovement();
         
@@ -45,6 +45,14 @@ public class PlayerAimState : PlayerBaseState
 
         #endregion
 
+        // Wait for camera positioning
+        timeLeft -= Time.deltaTime;
+
+        if (timeLeft < 0)
+        {
+            PlayerAimRotation(deltaTime);
+        }
+
         if (stateMachine.InputManager.MovementValue == Vector2.zero)
         {
             stateMachine.Animator.SetFloat(MoveYHash, 0, AnimatorDampTime, deltaTime);
@@ -52,8 +60,6 @@ public class PlayerAimState : PlayerBaseState
             AimCameraRotation(deltaTime);
             return;
         }
-
-
     }
 
     public override void Exit()
@@ -63,19 +69,20 @@ public class PlayerAimState : PlayerBaseState
 
     void PlayerAimRotation(float deltaTime)
     {
-        Vector3 MouseWorldPosition = Vector3.zero;
+          Vector3 MouseWorldPosition = Vector3.zero;
+          Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+          Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        Ray ray = Camera.main.ScreenPointToRay(stateMachine.CrossHair.transform.position);
-        if (Physics.Raycast(ray, out RaycastHit hit, 999f, stateMachine.AimColliderLayerMask))
-        {
-            MouseWorldPosition = hit.point;
-        }
+          if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, stateMachine.AimColliderLayerMask))
+          {
+              MouseWorldPosition = hit.point;
+          }
 
-        Vector3 worldAimTarget = MouseWorldPosition;
-        worldAimTarget.y = stateMachine.transform.position.y;
+          Vector3 worldAimTarget = MouseWorldPosition;
+          worldAimTarget.y = stateMachine.transform.position.y;
 
-        Vector3 aimDirection = (worldAimTarget - stateMachine.transform.position).normalized;
+          Vector3 aimDirection = (worldAimTarget - stateMachine.transform.position).normalized;
 
-        stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDirection, deltaTime * 20f);
+          stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDirection, deltaTime * 40f);
     }
 }
