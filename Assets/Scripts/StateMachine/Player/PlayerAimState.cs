@@ -19,7 +19,7 @@ public class PlayerAimState : PlayerBaseState
         stateMachine.CinemachineTargetYaw = stateMachine.CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
         stateMachine.Animator.CrossFadeInFixedTime(PistolAimLocomotionHash, 0.1f);
-        stateMachine.AimVirtualCamera.gameObject.SetActive(true);
+        //stateMachine.AimVirtualCamera.gameObject.SetActive(true);
         stateMachine.CrossHair.gameObject.SetActive(true);
     }
 
@@ -59,7 +59,7 @@ public class PlayerAimState : PlayerBaseState
 
     public override void Exit()
     {
-        stateMachine.AimVirtualCamera.gameObject.SetActive(false);
+        //stateMachine.AimVirtualCamera.gameObject.SetActive(false);
         stateMachine.CrossHair.gameObject.SetActive(false);
     }
 

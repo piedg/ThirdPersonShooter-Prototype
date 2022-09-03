@@ -36,6 +36,9 @@ public class PlayerStateMachine : StateMachine
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         ControllerHeight = Controller.height;
         ControllerCenter = Controller.center;
 
