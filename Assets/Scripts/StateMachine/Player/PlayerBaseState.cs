@@ -49,7 +49,7 @@ public abstract class PlayerBaseState : State
         if (stateMachine.InputManager.LookValue.sqrMagnitude >= 0.01f)
         {
             stateMachine.CinemachineTargetYaw += stateMachine.InputManager.LookValue.x * deltaTime * stateMachine.AimSensitivity;
-            stateMachine.CinemachineTargetPitch += stateMachine.InputManager.LookValue.y * deltaTime * stateMachine.AimSensitivity;
+            stateMachine.CinemachineTargetPitch -= stateMachine.InputManager.LookValue.y * deltaTime * stateMachine.AimSensitivity;
         }
 
         // Limita rotazione della camera
