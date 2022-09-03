@@ -15,19 +15,15 @@ public class PlayerFreeLookState : PlayerBaseState
  
     public override void Enter()
     {
-        stateMachine.Animator.CrossFadeInFixedTime(FreeLookLocomotionHash, 0.3f);
         stateMachine.InputManager.JumpEvent += OnJump;
+        stateMachine.InputManager.CrouchEvent += OnCrouch;
+
+        stateMachine.Animator.CrossFadeInFixedTime(FreeLookLocomotionHash, 0.3f);
     }
 
     public override void Tick(float deltaTime)
     {
-        if (stateMachine.InputManager.IsCrouching)
-        {
-            stateMachine.Animator.CrossFadeInFixedTime(StandingToCrouchHash, 0.1f);
-            stateMachine.SwitchState(new PlayerCrouchingState(stateMachine));
-            return;
-        }
-        else if(stateMachine.InputManager.IsAiming)
+        if(stateMachine.InputManager.IsAiming)
         {
             stateMachine.SwitchState(new PlayerAimState(stateMachine));
             return;
@@ -51,10 +47,16 @@ public class PlayerFreeLookState : PlayerBaseState
     public override void Exit() 
     {
         stateMachine.InputManager.JumpEvent -= OnJump;
+        stateMachine.InputManager.CrouchEvent -= OnCrouch;
     }
 
     void OnJump()
     {
         stateMachine.SwitchState(new PlayerJumpingState(stateMachine));
+    }
+
+    void OnCrouch()
+    {
+        stateMachine.SwitchState(new PlayerCrouchingState(stateMachine));
     }
 }

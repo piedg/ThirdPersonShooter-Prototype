@@ -17,6 +17,8 @@ public class PlayerCrouchingState : PlayerBaseState
 
     public override void Enter()
     {
+        stateMachine.InputManager.CrouchEvent += OnCrouch;
+
         stateMachine.Controller.height = ControllerHeightOnCrouch;
 
         stateMachine.Animator.CrossFadeInFixedTime(CrouchingLocomotionHash, 0.3f);
@@ -24,7 +26,7 @@ public class PlayerCrouchingState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
-        if (stateMachine.InputManager.IsSprinting)
+        if (stateMachine.InputManager.IsCrouching)
         {
             stateMachine.Animator.CrossFadeInFixedTime(CrouchingToStandHash, 0.1f);
             stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
@@ -51,5 +53,12 @@ public class PlayerCrouchingState : PlayerBaseState
     {
         stateMachine.Controller.height = stateMachine.ControllerHeight;
         stateMachine.Controller.center = stateMachine.ControllerCenter;
+
+        stateMachine.InputManager.CrouchEvent -= OnCrouch;
+    }
+
+    void OnCrouch()
+    {
+        stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
     }
 }

@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
 
     public event Action JumpEvent;
+    public event Action CrouchEvent;
 
     private Controls controls;
 
@@ -61,14 +62,8 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
     public void OnCrouch(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            IsCrouching = true;
-        }
-        else if (context.canceled)
-        {
-            IsCrouching = false;
-        }
+        if (!context.performed) { return; }
+        CrouchEvent?.Invoke();
     }
 
     public void OnAim(InputAction.CallbackContext context)
