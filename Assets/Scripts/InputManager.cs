@@ -7,10 +7,15 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour, Controls.IPlayerActions
 {
     public Vector2 MovementValue { get; private set; }
+    public Vector2 LookValue { get; private set; }
     public bool IsSprinting { get; private set; }
     public bool IsCrouching { get; private set; }
+    public bool IsAiming { get; private set; }
+
+
 
     public event Action JumpEvent;
+    public event Action CrouchEvent;
 
     private Controls controls;
 
@@ -39,7 +44,9 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
         MovementValue = context.ReadValue<Vector2>().normalized;
     }
 
-    public void OnLook(InputAction.CallbackContext context) { }
+    public void OnLook(InputAction.CallbackContext context) {
+        LookValue = context.ReadValue<Vector2>();
+    }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
@@ -55,13 +62,19 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
     public void OnCrouch(InputAction.CallbackContext context)
     {
+        if (!context.performed) { return; }
+        CrouchEvent?.Invoke();
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
         if (context.performed)
         {
-            IsCrouching = true;
+            IsAiming = true;
         }
         else if (context.canceled)
         {
-            IsCrouching = false;
+            IsAiming = false;
         }
     }
 }
