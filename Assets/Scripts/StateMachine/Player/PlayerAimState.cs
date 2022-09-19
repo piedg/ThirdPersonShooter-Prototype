@@ -17,6 +17,7 @@ public class PlayerAimState : PlayerBaseState
 
     public override void Enter()
     {
+        stateMachine.CinemachineTargetPitch = 0f;
         stateMachine.CinemachineTargetYaw = stateMachine.CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
         stateMachine.Animator.CrossFadeInFixedTime(PistolAimLocomotionHash, 0.1f);
