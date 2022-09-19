@@ -82,8 +82,9 @@ public class PlayerAimState : PlayerBaseState
           Vector3 worldAimTarget = MouseWorldPosition;
           worldAimTarget.y = stateMachine.transform.position.y;
 
-          Vector3 aimDirection = (worldAimTarget - stateMachine.transform.position).normalized;
+        
+        var aimDirection = Quaternion.LookRotation(worldAimTarget - stateMachine.transform.position);
 
-          stateMachine.transform.forward = Vector3.Lerp(stateMachine.transform.forward, aimDirection, deltaTime * 40f);
+        stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, aimDirection, stateMachine.AimSensitivity * deltaTime);
     }
 }
